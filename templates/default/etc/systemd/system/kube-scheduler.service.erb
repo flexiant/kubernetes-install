@@ -1,0 +1,15 @@
+[Unit]
+Description=Kubernetes Scheduler
+Documentation=https://github.com/kubernetes/kubernetes/
+After=network.target
+Requires=etcd.service
+After=weave.service
+
+[Service]
+EnvironmentFile=/etc/default/kube-scheduler
+ExecStart=/opt/kubernetes/server/bin/kube-scheduler $KUBE_SCHEDULER_OPTS
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

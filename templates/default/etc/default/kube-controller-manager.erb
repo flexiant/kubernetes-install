@@ -1,0 +1,14 @@
+# Use KUBE_CONTROLLER_MANAGER_OPTS to modify the start/restart options
+KUBE_CONTROLLER_MANAGER_OPTS="<%
+@iterator['controller']['params'].each do |key, value|
+  if !value.nil?
+    if !value.is_a?(String) || !value.empty?
+      %> --<%= key %>=<%=  if value.class.name == "Proc"
+                            value.call
+                          else
+                            value
+                          end
+                      %><%
+    end
+  end
+end %>"

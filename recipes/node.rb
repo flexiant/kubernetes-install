@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: kubernetes-install
-# Recipe:: default
+# Recipe:: node
 #
 # Copyright:: Copyright (c) 2015 Chef Software, Inc.
 # License:: Apache License, Version 2.0
@@ -18,27 +18,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-execute 'systemd_reload_units' do
-  action :nothing
-  command '/bin/systemctl daemon-reload'
-end
+include_recipe 'kubernetes-install::default'
 
-tar_extract node['kubernetes']['package'] do
-  target_dir '/opt'
-end
+%w(kubelet kube-proxy).each do |file|
+  template "/etc/default/#{file}" do
+    cookbook 'kubernetes'
+    source "etc/default/#{file}.erb"
+    owner 'root'
+    group 'root'
+    mode 644
+    variables (lazy {
+      {iterator: node['kubernetes']}
+    })
+  end
 
-tar_extract '/opt/kubernetes/server/kubernetes-server-linux-amd64.tar.gz' do
-  action :extract_local
-  retries 3
-  target_dir '/opt'
-  creates '/opt/kubernetes/server/bin/'
-end
+  template "/etc/systemd/system/#{file}.service" do
+    source "etc/systemd/system/#{file}.service.erb"
+    notifies :run, 'execute[systemd_reload_units]', :immediate
+    mode 644
+  end
 
-cookbook_file "/etc/profile.d/K99-kubernetes.sh" do
-  source "profile.d/kubernetes.sh"
-  mode 00755
-  action :create
-  only_if {
-    ::File.directory?("/etc/profile.d/")
-  }
+  service file do
+    action [:enable, :start]
+    subscribes :restart, "template[/etc/default/#{file}]"
+    subscribes :restart, "template[/etc/systemd/system/#{file}.service]"
+  end
 end
