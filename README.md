@@ -294,4 +294,4 @@ Include `kubernetes-install::master` in your kubernetes master run list and make
 
 ### kubernetes-install::node
 
-Include `['kubernetes']['master']`  attribute in your kubernetes nodes run list.
+Include `kubernetes-install::node` in your kubernetes nodes run list.
