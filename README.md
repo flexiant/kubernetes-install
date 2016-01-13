@@ -15,12 +15,6 @@ This cookbook expose no resources, all configuration is done through attributes.
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>['kubernetes-install']['bacon']</tt></td>
-    <td>Boolean</td>
-    <td>whether to include bacon</td>
-    <td><tt>true</tt></td>
-  </tr>
-  <tr>
     <td><tt>['kubernetes']['package']</tt></td>
     <td>type</td>
     <td>description</td>
@@ -296,8 +290,8 @@ This cookbook expose no resources, all configuration is done through attributes.
 
 ### kubernetes-install::master
 
-Include `kubernetes-install::master` in your kubernetes master run list and make sure you boot it before the slave nodes.
+Include `kubernetes-install::master` in your kubernetes master run list and make sure you boot it before the nodes.
 
 ### kubernetes-install::node
 
-Include `kubernetes-install::master` in your kubernetes slave nodes run list.
+Include `['kubernetes']['master']`  attribute in your kubernetes nodes run list.
