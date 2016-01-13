@@ -22,7 +22,6 @@ include_recipe 'kubernetes-install::default'
 
 %w(kubelet kube-proxy).each do |file|
   template "/etc/default/#{file}" do
-    cookbook 'kubernetes'
     source "etc/default/#{file}.erb"
     owner 'root'
     group 'root'
