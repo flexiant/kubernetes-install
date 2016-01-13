@@ -9,8 +9,7 @@ version          IO.read(File.join(File.dirname(__FILE__), 'VERSION')).chomp
 supports 'ubuntu', '>= 15.04'
 
 depends "tar"
-depends "docker"
-depends "weave"
+depends "docker" , '= 1.1.49'
 
 recipe "kubernetes-install::default", "Install and configure Kubernetes"
 recipe "kubernetes-install::load_balancer", "Install and configure Load Balancer for Kubernetes"

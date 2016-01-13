@@ -42,3 +42,5 @@ cookbook_file "/etc/profile.d/K99-kubernetes.sh" do
     ::File.directory?("/etc/profile.d/")
   }
 end
+
+include_recipe 'kubernetes-install::docker'
