@@ -297,8 +297,9 @@ node.kubernetes.kubelet.params['newparam']='value'
 ## Pre-requisites
 
 All nodes must be running docker daemon with a configured overlay network.
-This cookbook has only been tested with `docker` containers.
-This cookbook has only been tested with `weave` overlay network.
+
+* This cookbook has only been tested with `docker` containers.
+* This cookbook has only been tested with `weave` overlay network.
 
 ## Usage
 
