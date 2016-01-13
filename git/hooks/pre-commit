@@ -9,3 +9,4 @@ new_minor=$(( $minor + 1 ))
 echo "$version.$mayor.$new_minor" >> $PWD/VERSION
 git add VERSION
 git tag $new_release
+
