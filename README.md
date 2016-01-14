@@ -43,7 +43,7 @@ node.kubernetes.kubelet.params['newparam']='value'
   <tr>
     <td><tt>['kubernetes']['apiserver']['params']['address']</tt></td>
     <td>String</td>
-    <td>[See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html)</td>
+    <td><a href='http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html'>See apiserver params</a></td>
     <td><tt>'0.0.0.0'</tt></td>
   </tr>
   <tr>
