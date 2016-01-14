@@ -1,10 +1,11 @@
 name             'kubernetes-install'
 maintainer       'Flexiant Ltd.'
 maintainer_email 'contact@flexiant.com'
-license          'apache2'
+license          'Apache v2.0'
 description      'Installs/Configures kubernetes'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          IO.read(File.join(File.dirname(__FILE__), 'VERSION')).chomp
+source_url       'https://github.com/flexiant/kubernetes-install'
 
 supports 'ubuntu', '>= 15.04'
 
