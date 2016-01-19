@@ -14,13 +14,13 @@ if node['hostname'].match("master-01$")
 
   template "/opt/kubernetes/addons/skydns/skydns.rc.yaml" do
     source "addons/skydns.rc.yaml.erb"
-    mode 00644
+    mode '0644'
     action :create
   end
 
   template "/opt/kubernetes/addons/skydns/skydns.svc.yaml" do
     source "addons/skydns.svc.yaml.erb"
-    mode 00644
+    mode '0644'
     action :create
   end
 

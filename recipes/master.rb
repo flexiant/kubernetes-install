@@ -44,7 +44,7 @@ end
     source "etc/default/#{file}.erb"
     owner 'root'
     group 'root'
-    mode 644
+    mode '0644'
     variables (lazy {
                  {iterator: node['kubernetes']}
     })
@@ -53,7 +53,7 @@ end
   template "/etc/systemd/system/#{file}.service" do
     source "etc/systemd/system/#{file}.service.erb"
     notifies :run, 'execute[systemd_reload_units]', :immediate
-    mode 644
+    mode '0644'
   end
 
   service file do
