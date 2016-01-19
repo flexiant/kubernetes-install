@@ -32,6 +32,10 @@ bash "Allowing for intefaces.d to work correctly" do
   not_if "grep source /etc/network/interfaces "
 end
 
+package 'bridge-utils' do
+  action :install
+end
+
 bash "Creating temporary Docker bridge" do
   user 'root'
   cwd '/tmp'
@@ -45,14 +49,14 @@ bash "Creating temporary Docker bridge" do
   not_if "ip link show docker0 | grep UP"
 end
 
-docker_service 'kubernetes-install' do 
+docker_service 'kubernetes-install' do
   storage_driver 'overlay'
   version '1.8.3'
   action :create
   not_if "systemctl  | grep docker.service | grep running"
 end
 
-docker_service 'kubernetes-install' do 
+docker_service 'kubernetes-install' do
   action :start
   not_if "systemctl  | grep docker.service | grep running"
 end
