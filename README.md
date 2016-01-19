@@ -14,50 +14,51 @@ i.e.:
 ```
 node.kubernetes.kubelet.params['newparam']='value'
 ```
-
 | Key | Type | Description | Default |
-| <tt>['kubernetes']['package']</tt> | String | URL to compressed package | <tt>"https://github.com/kubernetes/kubernetes/releases/download/v1.1.1/kubernetes.tar.gz"</tt> |
-| <tt>['kubernetes']['nodes']</tt> | Array | Array of nodes | <tt>[]</tt> |
-| <tt>['kubernetes']['internal_protocol']</tt> | String | http or https | <tt>'http'</tt> |
-| <tt>['kubernetes']['apiserver']['params']['address']</tt> | String | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) | <tt>'0.0.0.0'</tt> |
-| <tt>['kubernetes']['apiserver']['params']['cloud-provider']</tt> | String | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) |
-| <tt>['kubernetes']['apiserver']['params']['cloud-config']</tt> | String | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) |
-| <tt>['kubernetes']['apiserver']['params']['insecure_port']</tt> | Integer | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) | <tt>8080</tt> |
-| <tt>['kubernetes']['apiserver']['params']['secure_port']</tt> | Integer | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) | <tt>6443</tt> |
-| <tt>['kubernetes']['apiserver']['params']['etcd_servers']</tt> | String | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) | <tt>'http://127.0.0.1:4001'</tt> |
-| <tt>['kubernetes']['apiserver']['params']['logtostderr']</tt> | Boolean | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) | <tt>true</tt> |
-| <tt>['kubernetes']['apiserver']['params']['allow_privileged']</tt> | Boolean | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) | <tt>true</tt> |
-| <tt>['kubernetes']['apiserver']['params']['kubelet_port']</tt> | Integer | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) | <tt>10250</tt> |
-| <tt>['kubernetes']['apiserver']['params']['v']</tt> | Integer | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) | <tt>100</tt> |
-| <tt>['kubernetes']['apiserver']['params']['kubelet_https']</tt> | Boolean | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) | <tt>true</tt> |
-| <tt>['kubernetes']['apiserver']['params']['service-cluster-ip-range']</tt> | String | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) | <tt>'172.30.0.0/16'</tt> |
-| <tt>['kubernetes']['apiserver']['params']['tls_cert_file']</tt> | String | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) |
-| <tt>['kubernetes']['apiserver']['params']['tls_private_key_file']</tt> | String | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) |
-| <tt>['kubernetes']['apiserver']['params']['client_ca_file']</tt> | String | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) |
-| <tt>['kubernetes']['apiserver']['params']['insecure_port']</tt> | Integer | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) | <tt>depends on internal protocol</tt> |
-| <tt>['kubernetes']['master_list']</tt> | String | Comma separated list of masters |
-| <tt>['kubernetes']['kubelet']['params']['address']</tt> | String | [See kubelet params](http://kubernetes.io/v1.1/docs/admin/kubelet.html) | <tt>'0.0.0.0'</tt> |
-| <tt>['kubernetes']['kubelet']['params']['port']</tt> | Integer | [See kubelet params](http://kubernetes.io/v1.1/docs/admin/kubelet.html) | <tt>10250</tt> |
-| <tt>['kubernetes']['kubelet']['params']['v']</tt> | Integer | [See kubelet params](http://kubernetes.io/v1.1/docs/admin/kubelet.html) | <tt>100</tt> |
-| <tt>['kubernetes']['kubelet']['params']['cadvisor-port']</tt> | Integer | [See kubelet params](http://kubernetes.io/v1.1/docs/admin/kubelet.html) | <tt>4194</tt> |
-| <tt>['kubernetes']['kubelet']['params']['cluster-dns']</tt> | String | [See kubelet params](http://kubernetes.io/v1.1/docs/admin/kubelet.html) | <tt>'172.30.3.1'</tt> |
-| <tt>['kubernetes']['kubelet']['params']['cluster-domain']</tt> | String | [See kubelet params](http://kubernetes.io/v1.1/docs/admin/kubelet.html) | <tt>'cluster.local'</tt> |
-| <tt>['kubernetes']['kubelet']['params']['hostname-override']</tt> | String | [See kubelet params](http://kubernetes.io/v1.1/docs/admin/kubelet.html) | <tt>node["fqdn"]</tt> |
-| <tt>['kubernetes']['kubelet']['params']['docker_endpoint']</tt> | String | [See kubelet params](http://kubernetes.io/v1.1/docs/admin/kubelet.html) | <tt>'unix:///var/run/docker.sock'</tt> |
-| <tt>['kubernetes']['kubelet']['params']['logtostderr']</tt> | Boolean | [See kubelet params](http://kubernetes.io/v1.1/docs/admin/kubelet.html) | <tt>true</tt> |
-| <tt>['kubernetes']['kubelet']['params']['api_servers']</tt> | String | [See kubelet params](http://kubernetes.io/v1.1/docs/admin/kubelet.html) | <tt>node['kubernetes']['master_list']</tt> |
-| <tt>['kubernetes']['controller']['params']['master']</tt> | String | [See rc params](http://kubernetes.io/v1.1/docs/user-guide/replication-controller.html) | <tt>'127.0.0.1:8080'</tt> |
-| <tt>['kubernetes']['controller']['params']['cloud-provider']</tt> | String | [See rc params](http://kubernetes.io/v1.1/docs/user-guide/replication-controller.html) |
-| <tt>['kubernetes']['controller']['params']['cloud-config']</tt> | String | [See rc params](http://kubernetes.io/v1.1/docs/user-guide/replication-controller.html) |
-| <tt>['kubernetes']['controller']['params']['v']</tt> | Integer | [See rc params](http://kubernetes.io/v1.1/docs/user-guide/replication-controller.html) | <tt>100</tt> |
-| <tt>['kubernetes']['controller']['params']['logtostderr']</tt> | Boolean | [See rc params](http://kubernetes.io/v1.1/docs/user-guide/replication-controller.html) | <tt>true</tt> |
-| <tt>['kubernetes']['scheduler']['params']['master']</tt> | String | [See scheduler params](http://kubernetes.io/v1.1/docs/devel/scheduler.html) | <tt>'127.0.0.1:8080'</tt> |
-| <tt>['kubernetes']['scheduler']['params']['v']</tt> | Integer | [See scheduler params](http://kubernetes.io/v1.1/docs/devel/scheduler.html) | <tt>100</tt> |
-| <tt>['kubernetes']['scheduler']['params']['logtostderr']</tt> | Boolean | [See scheduler params](http://kubernetes.io/v1.1/docs/devel/scheduler.html) | <tt>true</tt> |
-| <tt>['kubernetes']['proxy']['params']['master']</tt> | String | [See kube-proxy params](http://kubernetes.io/v1.1/docs/admin/kube-proxy.html) | <tt>'127.0.0.1:8080'</tt> |
-| <tt>['kubernetes']['proxy']['params']['v']</tt> | Integer | [See kube-proxy params](http://kubernetes.io/v1.1/docs/admin/kube-proxy.html) | <tt>100</tt> |
-| <tt>['kubernetes']['proxy']['params']['logtostderr']</tt> | Boolean | [See kube-proxy params](http://kubernetes.io/v1.1/docs/admin/kube-proxy.html) | <tt>true</tt> |
-| <tt>['kubernetes']['proxy']['params']['master']</tt> | String | [See kube-proxy params](http://kubernetes.io/v1.1/docs/admin/kube-proxy.html) | <tt>node['kubernetes']['master_list']</tt> |
+|-----|------|-------------|---------|
+| ['kubernetes']['package'] | String | URL to compressed package | "https://github.com/kubernetes/kubernetes/releases/download/v1.1.1/kubernetes.tar.gz" |
+| ['kubernetes']['nodes'] | Array | Array of nodes | [] |
+| ['kubernetes']['internal_protocol'] | String | http or https | 'http' |
+| ['kubernetes']['apiserver']['params']['address'] | String | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) | '0.0.0.0' |
+| ['kubernetes']['apiserver']['params']['cloud-provider'] | String | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) |
+| ['kubernetes']['apiserver']['params']['cloud-config'] | String | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) |
+| ['kubernetes']['apiserver']['params']['insecure_port'] | Integer | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) | 8080 |
+| ['kubernetes']['apiserver']['params']['secure_port'] | Integer | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) | 6443 |
+| ['kubernetes']['apiserver']['params']['etcd_servers'] | String | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) | 'http://127.0.0.1:4001' |
+| ['kubernetes']['apiserver']['params']['logtostderr'] | Boolean | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) | true |
+| ['kubernetes']['apiserver']['params']['allow_privileged'] | Boolean | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) | true |
+| ['kubernetes']['apiserver']['params']['kubelet_port'] | Integer | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) | 10250 |
+| ['kubernetes']['apiserver']['params']['v'] | Integer | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) | 100 |
+| ['kubernetes']['apiserver']['params']['kubelet_https'] | Boolean | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) | true |
+| ['kubernetes']['apiserver']['params']['service-cluster-ip-range'] | String | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) | '172.30.0.0/16' |
+| ['kubernetes']['apiserver']['params']['tls_cert_file'] | String | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) |
+| ['kubernetes']['apiserver']['params']['tls_private_key_file'] | String | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) |
+| ['kubernetes']['apiserver']['params']['client_ca_file'] | String | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) |
+| ['kubernetes']['apiserver']['params']['insecure_port'] | Integer | [See apiserver params](http://kubernetes.io/v1.1/docs/admin/kube-apiserver.html) | depends on internal protocol |
+| ['kubernetes']['master_list'] | String | Comma separated list of masters |
+| ['kubernetes']['kubelet']['params']['address'] | String | [See kubelet params](http://kubernetes.io/v1.1/docs/admin/kubelet.html) | '0.0.0.0' |
+| ['kubernetes']['kubelet']['params']['port'] | Integer | [See kubelet params](http://kubernetes.io/v1.1/docs/admin/kubelet.html) | 10250 |
+| ['kubernetes']['kubelet']['params']['v'] | Integer | [See kubelet params](http://kubernetes.io/v1.1/docs/admin/kubelet.html) | 100 |
+| ['kubernetes']['kubelet']['params']['cadvisor-port'] | Integer | [See kubelet params](http://kubernetes.io/v1.1/docs/admin/kubelet.html) | 4194 |
+| ['kubernetes']['kubelet']['params']['cluster-dns'] | String | [See kubelet params](http://kubernetes.io/v1.1/docs/admin/kubelet.html) | '172.30.3.1' |
+| ['kubernetes']['kubelet']['params']['cluster-domain'] | String | [See kubelet params](http://kubernetes.io/v1.1/docs/admin/kubelet.html) | 'cluster.local' |
+| ['kubernetes']['kubelet']['params']['hostname-override'] | String | [See kubelet params](http://kubernetes.io/v1.1/docs/admin/kubelet.html) | node["fqdn"] |
+| ['kubernetes']['kubelet']['params']['docker_endpoint'] | String | [See kubelet params](http://kubernetes.io/v1.1/docs/admin/kubelet.html) | 'unix:///var/run/docker.sock' |
+| ['kubernetes']['kubelet']['params']['logtostderr'] | Boolean | [See kubelet params](http://kubernetes.io/v1.1/docs/admin/kubelet.html) | true |
+| ['kubernetes']['kubelet']['params']['api_servers'] | String | [See kubelet params](http://kubernetes.io/v1.1/docs/admin/kubelet.html) | node['kubernetes']['master_list'] |
+| ['kubernetes']['controller']['params']['master'] | String | [See rc params](http://kubernetes.io/v1.1/docs/user-guide/replication-controller.html) | '127.0.0.1:8080' |
+| ['kubernetes']['controller']['params']['cloud-provider'] | String | [See rc params](http://kubernetes.io/v1.1/docs/user-guide/replication-controller.html) |
+| ['kubernetes']['controller']['params']['cloud-config'] | String | [See rc params](http://kubernetes.io/v1.1/docs/user-guide/replication-controller.html) |
+| ['kubernetes']['controller']['params']['v'] | Integer | [See rc params](http://kubernetes.io/v1.1/docs/user-guide/replication-controller.html) | 100 |
+| ['kubernetes']['controller']['params']['logtostderr'] | Boolean | [See rc params](http://kubernetes.io/v1.1/docs/user-guide/replication-controller.html) | true |
+| ['kubernetes']['scheduler']['params']['master'] | String | [See scheduler params](http://kubernetes.io/v1.1/docs/devel/scheduler.html) | '127.0.0.1:8080' |
+| ['kubernetes']['scheduler']['params']['v'] | Integer | [See scheduler params](http://kubernetes.io/v1.1/docs/devel/scheduler.html) | 100 |
+| ['kubernetes']['scheduler']['params']['logtostderr'] | Boolean | [See scheduler params](http://kubernetes.io/v1.1/docs/devel/scheduler.html) | true |
+| ['kubernetes']['proxy']['params']['master'] | String | [See kube-proxy params](http://kubernetes.io/v1.1/docs/admin/kube-proxy.html) | '127.0.0.1:8080' |
+| ['kubernetes']['proxy']['params']['v'] | Integer | [See kube-proxy params](http://kubernetes.io/v1.1/docs/admin/kube-proxy.html) | 100 |
+| ['kubernetes']['proxy']['params']['logtostderr'] | Boolean | [See kube-proxy params](http://kubernetes.io/v1.1/docs/admin/kube-proxy.html) | true |
+| ['kubernetes']['proxy']['params']['master'] | String | [See kube-proxy params](http://kubernetes.io/v1.1/docs/admin/kube-proxy.html) | node['kubernetes']['master_list'] |
+
 
 ## Pre-requisites
 
