@@ -1,5 +1,5 @@
 # kubernetes-install cookbook
-The Kubernetes Cookbook install `kubernetes`at master and slaves using `kubernetes-install::master`and `kubernetes-install::slave`
+The Kubernetes Cookbook install `kubernetes`at master and nodes using `kubernetes-install::master`and `kubernetes-install::node`
 
 ## Supported Platforms
 This cookbook is intended to be used with Linux using systemd. SysV, Init.d and Upstart are not supported.
@@ -303,16 +303,16 @@ All nodes must be running docker daemon with a configured overlay network.
 
 ## Usage
 
-To create a kubernetes cluster you need one master and at least one slave.
+To create a kubernetes cluster you need one master and at least one node.
 Although several masters are supported only clusters with a master node has been tested.
 
 
 The run-list for the master must include 'kubernetes-install::master', with an override of the parameters that configure the environment.
-The attribute `['kubernetes']['nodes']` holds the array of operational slaves. At boot time this attribute should be empty.
+The attribute `['kubernetes']['nodes']` holds the array of operational nodes. At boot time this attribute should be empty.
 
-The slave nodes must include 'kubernetes-install:node' in their run-list. Once the node is operational, update the `['kubernetes']['nodes']` attribute for the master node at the Chef server, so that the node can be registered.
+The node nodes must include 'kubernetes-install:node' in their run-list. Once the node is operational, update the `['kubernetes']['nodes']` attribute for the master node at the Chef server, so that the node can be registered.
 
-When removing a slave node, be sure to also remove the node from the attribute, so the master doesn't try to reconfigure the missing member.
+When removing a node node, be sure to also remove the node from the attribute, so the master doesn't try to reconfigure the missing member.
 
 ### Cluster management
 
