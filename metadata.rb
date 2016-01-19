@@ -5,7 +5,9 @@ license          'Apache v2.0'
 description      'Installs/Configures kubernetes'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          IO.read(File.join(File.dirname(__FILE__), 'VERSION')).chomp
+
 source_url       'https://github.com/flexiant/kubernetes-install'
+issues_url       'https://github.com/flexiant/kubernetes-install/issues'
 
 supports 'ubuntu', '>= 15.04'
 

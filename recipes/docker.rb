@@ -45,13 +45,14 @@ bash "Creating temporary Docker bridge" do
   not_if "ip link show docker0 | grep UP"
 end
 
-docker_service 'install' do 
+docker_service 'kubernetes-install' do 
   storage_driver 'overlay'
   version '1.8.3'
   action :create
-  not_if "service --status-all | grep docker"
+  not_if "systemctl  | grep docker.service | grep running"
 end
 
-docker_service 'install' do 
+docker_service 'kubernetes-install' do 
   action :start
+  not_if "systemctl  | grep docker.service | grep running"
 end
