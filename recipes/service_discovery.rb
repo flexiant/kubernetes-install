@@ -7,7 +7,8 @@
 # All rights reserved - Do Not Redistribute
 #
 
-Chef::Resource::User.send(:include, KubernetesCookbook::KubernetesHelper)
+::Chef::Resource.send(:include, Kubernetes::Helper)
+
 
 if node['hostname'].match("master-01$")
   directory "/opt/kubernetes/addons/skydns/" do

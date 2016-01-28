@@ -1,5 +1,5 @@
-module KubernetesCookbook
-  module KubernetesHelper
+module Kubernetes
+  module Helper
 
     def is_port_open?(host, port, timeout, sleep_period)
       tries = 0
