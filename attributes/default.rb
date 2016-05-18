@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-default['kubernetes']['package'] = "https://github.com/kubernetes/kubernetes/releases/download/v1.1.1/kubernetes.tar.gz"
+default['kubernetes']['package'] = "https://github.com/kubernetes/kubernetes/releases/download/v1.1.8/kubernetes.tar.gz"
 default['kubernetes']['nodes'] = []
 default['kubernetes']['internal_protocol']='http'
 
