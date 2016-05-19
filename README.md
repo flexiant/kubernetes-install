@@ -100,3 +100,11 @@ Include `kubernetes-install::node` in your kubernetes nodes run list.
 * The kubernetes version is determined by the compressed bundle package in `['kubernetes']['package']` attribute
 * Binaries are located at `/opt/kubernetes/server/bin/`
 * Services are created and started for every master binary (`kubelet`, `kube-proxy`).
+
+## Testing
+
+This cookbook includes integration tests using BATS and Serverspec executed via Test Kitchen.
+
+```
+chef exec kitchen test cluster
+```
