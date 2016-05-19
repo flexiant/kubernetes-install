@@ -4,14 +4,64 @@
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = '2'
 
+NUM_KUBERNETES_NODES = 2
+
 Vagrant.require_version '>= 1.5.0'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  # All Vagrant configuration is done here. The most common configuration
-  # options are documented and commented below. For a complete reference,
-  # please see the online documentation at vagrantup.com.
 
-  config.vm.hostname = 'kubernetes-install-berkshelf'
+  # Master server
+  config.vm.define "master" do |server|
+    server.vm.hostname = 'kubernetes-master-01'
+    server.vm.box = 'ubuntu/wily64'
+    server.vm.network :public_network
+    server.vm.network :private_network, ip: '192.168.40.10'
+    server.vm.provision :chef_solo do |chef|
+      chef.json = {
+        etcd: {
+          addr: "0.0.0.0:4001",
+          args: "-bind-addr=0.0.0.0:4001",
+          url: "https://github.com/coreos/etcd/releases/download/v0.4.6/etcd-v0.4.6-linux-amd64.tar.gz",
+          sha256: "b351d05f68d2a8f3fce2d4038f3ecf3408901ac2ec37240ff0043b4c989484f5"
+        },
+        kubernetes: {
+          nodes: (1..NUM_KUBERNETES_NODES).map { |i| "192.168.40.1#{i}" }
+        }
+      }
+      chef.run_list = [
+        'recipe[etcd]',
+        'recipe[kubernetes-install::master]'
+      ]
+      #chef.log_level = :debug
+    end
+  end
+
+  # Node servers
+  (1..NUM_KUBERNETES_NODES).each do |i|
+    config.vm.define "node-#{i}" do |server|
+      server.vm.hostname = "kubernetes-node-#{'%02d' % i}"
+      server.vm.box = 'ubuntu/wily64'
+      server.vm.network :private_network, ip: "192.168.40.1#{i}"
+      server.vm.provision :chef_solo do |chef|
+        chef.json = {
+          etcd: {
+            addr: "0.0.0.0:4001",
+            args: "-bind-addr=0.0.0.0:4001",
+            url: "https://github.com/coreos/etcd/releases/download/v0.4.6/etcd-v0.4.6-linux-amd64.tar.gz",
+            sha256: "b351d05f68d2a8f3fce2d4038f3ecf3408901ac2ec37240ff0043b4c989484f5"
+          },
+          kubernetes: {
+            masters: ['192.168.40.10']
+          }
+        }
+        chef.run_list = [
+          'recipe[etcd]',
+          'recipe[kubernetes-install::node]'
+        ]
+        #chef.log_level = :debug
+      end
+    end
+  end
 
   # Set the version of chef to install using the vagrant-omnibus plugin
   # NOTE: You will need to install the vagrant-omnibus plugin:
@@ -21,43 +71,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   if Vagrant.has_plugin?("vagrant-omnibus")
     config.omnibus.chef_version = 'latest'
   end
-
-  # Every Vagrant virtual environment requires a box to build off of.
-  # If this value is a shorthand to a box in Vagrant Cloud then
-  # config.vm.box_url doesn't need to be specified.
-  config.vm.box = 'chef/ubuntu-14.04'
-
-
-  # Assign this VM to a host-only network IP, allowing you to access it
-  # via the IP. Host-only networks can talk to the host machine as well as
-  # any other machines on the same network, but cannot be accessed (through this
-  # network interface) by any external networks.
-  config.vm.network :private_network, type: 'dhcp'
-
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-
-  # Share an additional folder to the guest VM. The first argument is
-  # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.
-  # config.vm.synced_folder "../data", "/vagrant_data"
-
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
-  # config.vm.provider :virtualbox do |vb|
-  #   # Don't boot with headless mode
-  #   vb.gui = true
-  #
-  #   # Use VBoxManage to customize the VM. For example to change memory:
-  #   vb.customize ["modifyvm", :id, "--memory", "1024"]
-  # end
-  #
-  # View the documentation for the provider you're using for more
-  # information on available options.
 
   # The path to the Berksfile to use with Vagrant Berkshelf
   # config.berkshelf.berksfile_path = "./Berksfile"
@@ -73,18 +86,4 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # An array of symbols representing groups of cookbook described in the Vagrantfile
   # to skip installing and copying to Vagrant's shelf.
   # config.berkshelf.except = []
-
-  config.vm.provision :chef_solo do |chef|
-    chef.json = {
-      mysql: {
-        server_root_password: 'rootpass',
-        server_debian_password: 'debpass',
-        server_repl_password: 'replpass'
-      }
-    }
-
-    chef.run_list = [
-      'recipe[kubernetes-install::default]'
-    ]
-  end
 end
