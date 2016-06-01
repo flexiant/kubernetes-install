@@ -18,7 +18,7 @@
 default['kubernetes']['package'] = "https://github.com/kubernetes/kubernetes/releases/download/v1.2.4/kubernetes.tar.gz"
 default['kubernetes']['nodes'] = []
 default['kubernetes']['internal_protocol']='http'
-
+default['kubernetes']['etcd_service_name'] = 'etcd-etcd'
 
 # API SERVER DEFAULT PARAMS
 default['kubernetes']['apiserver']['params']['address']='0.0.0.0'

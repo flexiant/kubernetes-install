@@ -34,6 +34,9 @@ include_recipe 'kubernetes-install::default'
   template "/etc/systemd/system/#{file}.service" do
     source "etc/systemd/system/#{file}.service.erb"
     notifies :run, 'execute[systemd_reload_units]', :immediate
+    variables (lazy {
+                {etcd_name: node['kubernetes']['etcd_service_name']}
+      })
     mode '0644'
   end
 

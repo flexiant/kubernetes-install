@@ -1,8 +1,7 @@
-source "https://supermarket.chef.io"
-source :chef_server
+source 'https://supermarket.chef.io'
 
 metadata
 
-group :integration do
-  cookbook 'export-node'
+group 'integration' do
+  cookbook 'kubernetes-cluster', path: './test/fixtures/cookbooks/kubernetes-cluster'
 end
