@@ -34,13 +34,13 @@ tar_extract '/opt/kubernetes/server/kubernetes-server-linux-amd64.tar.gz' do
   creates '/opt/kubernetes/server/bin/'
 end
 
-cookbook_file "/etc/profile.d/K99-kubernetes.sh" do
-  source "profile.d/kubernetes.sh"
+cookbook_file '/etc/profile.d/K99-kubernetes.sh' do
+  source 'profile.d/kubernetes.sh'
   mode 00755
   action :create
-  only_if {
-    ::File.directory?("/etc/profile.d/")
-  }
+  only_if do
+    ::File.directory?('/etc/profile.d/')
+  end
 end
 
 include_recipe 'kubernetes-install::docker'

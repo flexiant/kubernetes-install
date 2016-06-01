@@ -18,25 +18,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-template "/etc/network/interfaces.d/docker.cfg" do
+template '/etc/network/interfaces.d/docker.cfg' do
   mode '0644'
-  source "etc/network/interfaces.d/docker.cfg.erb"
+  source 'etc/network/interfaces.d/docker.cfg.erb'
 end
 
-bash "Allowing for intefaces.d to work correctly" do
+bash 'Allowing for intefaces.d to work correctly' do
   user 'root'
   cwd '/tmp'
   code <<-EOH
   echo "source /etc/network/interfaces.d/*.cfg" >> /etc/network/interfaces
   EOH
-  not_if "grep source /etc/network/interfaces "
+  not_if 'grep source /etc/network/interfaces '
 end
 
 package 'bridge-utils' do
   action :install
 end
 
-bash "Creating temporary Docker bridge" do
+bash 'Creating temporary Docker bridge' do
   user 'root'
   cwd '/tmp'
   code <<-EOH
@@ -46,17 +46,17 @@ bash "Creating temporary Docker bridge" do
   ip addr add 172.17.42.1/24 dev docker0
   ip link set dev docker0 up
   EOH
-  not_if "ip link show docker0 | grep UP"
+  not_if 'ip link show docker0 | grep UP'
 end
 
 docker_service 'kubernetes-install' do
   storage_driver 'overlay'
   version '1.8.3'
   action :create
-  not_if "systemctl  | grep docker.service | grep running"
+  not_if 'systemctl  | grep docker.service | grep running'
 end
 
 docker_service 'kubernetes-install' do
   action :start
-  not_if "systemctl  | grep docker.service | grep running"
+  not_if 'systemctl  | grep docker.service | grep running'
 end
