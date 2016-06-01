@@ -5,3 +5,4 @@ depends 'kubernetes-install'
 
 depends 'etcd'
 depends 'export-node'
+depends 'hostsfile'
