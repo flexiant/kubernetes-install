@@ -5,7 +5,7 @@ require 'json'
 set :backend, :exec
 
 node = JSON.parse(File.read('/tmp/kitchen/chef_node.json'))
-if node['run_list'].include? 'recipe[kubernetes-install::master]'
+if node['run_list'].include? 'recipe[kubernetes-cluster::master]'
   describe "Kubernetes master components" do
 
     it "is listening on insecure kube-apiserver port 8080" do

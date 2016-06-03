@@ -25,3 +25,6 @@ suites:
   - name: cluster
     run_list: []
     attributes:
+      kubernetes:
+        masters: ["192.168.40.10"]
+        nodes: ["192.168.40.11"]

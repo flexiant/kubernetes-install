@@ -5,7 +5,7 @@ require 'json'
 set :backend, :exec
 
 node = JSON.parse(File.read('/tmp/kitchen/chef_node.json'))
-if node['run_list'].include? 'recipe[kubernetes-install::node]'
+if node['run_list'].include? 'recipe[kubernetes-cluster::node]'
   describe "Kubernetes node components" do
 
     it "is listening on kubelet port 10250" do
