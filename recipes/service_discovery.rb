@@ -9,7 +9,7 @@
 
 ::Chef::Resource.send(:include, Kubernetes::Helper)
 
-if node['hostname'] =~ 'master-01$'
+if node['hostname'].match('master-01$')
   directory '/opt/kubernetes/addons/skydns/' do
     recursive true
     action :create

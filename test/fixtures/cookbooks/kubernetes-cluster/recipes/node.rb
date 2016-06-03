@@ -6,4 +6,3 @@ etcd_service 'etcd' do
 end
 
 include_recipe 'kubernetes-install::node'
-include_recipe 'export-node::default'
