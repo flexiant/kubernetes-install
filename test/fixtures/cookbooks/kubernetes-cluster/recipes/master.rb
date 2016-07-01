@@ -1,6 +1,6 @@
 #
-# Cookbook Name:: kubernetes-install
-# Recipe:: default
+# Cookbook Name:: kubernetes-cluster
+# Recipe:: master
 #
 # Copyright:: Copyright (c) 2015 Chef Software, Inc.
 # License:: Apache License, Version 2.0
@@ -18,29 +18,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-execute 'systemd_reload_units' do
-  action :nothing
-  command '/bin/systemctl daemon-reload'
+etcd_service 'etcd' do
+  service_manager 'systemd'
+  action [:create, :start]
 end
 
-tar_extract node['kubernetes']['package'] do
-  target_dir '/opt'
-end
-
-tar_extract '/opt/kubernetes/server/kubernetes-server-linux-amd64.tar.gz' do
-  action :extract_local
-  retries 3
-  target_dir '/opt'
-  creates '/opt/kubernetes/server/bin/'
-end
-
-cookbook_file '/etc/profile.d/K99-kubernetes.sh' do
-  source 'profile.d/kubernetes.sh'
-  mode 00755
-  action :create
-  only_if do
-    ::File.directory?('/etc/profile.d/')
-  end
-end
-
-include_recipe 'kubernetes-install::docker'
+include_recipe 'kubernetes-install::master'
