@@ -12,7 +12,7 @@ issues_url       'https://github.com/flexiant/kubernetes-install/issues'
 supports 'ubuntu', '>= 15.04'
 
 depends 'tar'
-depends 'docker', '= 1.0.49'
+depends 'docker', '= 2.9.2'
 depends 'etcd', '= 3.2.5'
 
 recipe 'kubernetes-install::default', 'Install and configure Kubernetes'

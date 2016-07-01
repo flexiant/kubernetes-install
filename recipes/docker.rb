@@ -51,7 +51,8 @@ end
 
 docker_service 'kubernetes-install' do
   storage_driver 'overlay'
-  version '1.8.3'
+  version '1.10.3'
+  install_method 'binary'
   action :create
   not_if 'systemctl  | grep docker.service | grep running'
 end
