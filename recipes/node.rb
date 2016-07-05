@@ -26,14 +26,17 @@ include_recipe 'kubernetes-install::default'
     owner 'root'
     group 'root'
     mode '0644'
-    variables (lazy {
-      {iterator: node['kubernetes']}
-    })
+    variables (lazy do
+      { iterator: node['kubernetes'] }
+    end)
   end
 
   template "/etc/systemd/system/#{file}.service" do
     source "etc/systemd/system/#{file}.service.erb"
     notifies :run, 'execute[systemd_reload_units]', :immediate
+    variables (lazy do
+                 { etcd_name: node['kubernetes']['etcd_service_name'] }
+               end)
     mode '0644'
   end
 

@@ -20,15 +20,14 @@
 
 include_recipe 'kubernetes-install::default'
 
-
-directory "/opt/kubernetes/tmp/hosts" do
+directory '/opt/kubernetes/tmp/hosts' do
   recursive true
   action :create
 end
 
-if Dir.exists?('/opt/kubernetes/tmp/hosts/')
+if Dir.exist?('/opt/kubernetes/tmp/hosts/')
   # remove old kubernetes nodes from master
-  configured_hosts = ::Dir.entries("/opt/kubernetes/tmp/hosts/").reject{|entry| entry == "." || entry == ".."}
+  configured_hosts = ::Dir.entries('/opt/kubernetes/tmp/hosts/').reject { |entry| entry == '.' || entry == '..' }
   removable_hosts = configured_hosts - node['kubernetes']['nodes']
   removable_hosts.each do |slave|
     execute "/opt/kubernetes/server/bin/kubectl delete node #{slave}"
@@ -45,14 +44,17 @@ end
     owner 'root'
     group 'root'
     mode '0644'
-    variables (lazy {
-                 {iterator: node['kubernetes']}
-    })
+    variables (lazy do
+      { iterator: node['kubernetes'] }
+    end)
   end
 
   template "/etc/systemd/system/#{file}.service" do
     source "etc/systemd/system/#{file}.service.erb"
     notifies :run, 'execute[systemd_reload_units]', :immediate
+    variables (lazy do
+                 { etcd_name: node['kubernetes']['etcd_service_name'] }
+               end)
     mode '0644'
   end
 
@@ -63,4 +65,4 @@ end
   end
 end
 
-include_recipe "kubernetes-install::service_discovery"
+include_recipe 'kubernetes-install::service_discovery'

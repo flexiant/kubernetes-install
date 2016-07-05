@@ -1,10 +1,9 @@
 module Kubernetes
   module Helper
-
     def is_port_open?(host, port, timeout, sleep_period)
       tries = 0
       begin
-        Timeout::timeout(timeout) do
+        Timeout.timeout(timeout) do
           begin
             tries += 1
             s = TCPSocket.new(host, port)
@@ -19,6 +18,5 @@ module Kubernetes
         return false
       end
     end
-
   end
 end
