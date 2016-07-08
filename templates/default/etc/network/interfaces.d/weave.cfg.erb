@@ -1,6 +1,0 @@
-auto weave
-iface weave inet manual
-        pre-up WEAVE_NO_FASTDP=1 /usr/local/bin/weave --local create-bridge
-        post-up ip addr add dev weave <%= @cidr %>
-        pre-down ip link set dev weave down
-        post-down brctl delbr weave

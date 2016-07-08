@@ -2,12 +2,12 @@
 Description=Kubernetes Controller Manager
 Documentation=https://github.com/kubernetes/kubernetes/
 After=network.target
-Requires=etcd.service
-After=weave.service
+Requires=<% @etcd_name %>.service
+After=<% @etcd_name %>.service
 
 [Service]
 EnvironmentFile=/etc/default/kube-controller-manager
-ExecStart=/opt/kubernetes/server/bin/kube-controller-manager $KUBE_CONTROLLER_MANAGER_OPTS
+ExecStart=/usr/local/bin/hyperkube controller-manager $KUBE_CONTROLLER_MANAGER_OPTS
 Restart=on-failure
 LimitNOFILE=65536
 

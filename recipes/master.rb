@@ -20,24 +20,6 @@
 
 include_recipe 'kubernetes-install::default'
 
-
-directory "/opt/kubernetes/tmp/hosts" do
-  recursive true
-  action :create
-end
-
-if Dir.exists?('/opt/kubernetes/tmp/hosts/')
-  # remove old kubernetes nodes from master
-  configured_hosts = ::Dir.entries("/opt/kubernetes/tmp/hosts/").reject{|entry| entry == "." || entry == ".."}
-  removable_hosts = configured_hosts - node['kubernetes']['nodes']
-  removable_hosts.each do |slave|
-    execute "/opt/kubernetes/server/bin/kubectl delete node #{slave}"
-    execute "/opt/kubernetes/server/bin/kubectl get pods | grep #{slave}| awk \'{ print \"/opt/kubernetes/server/bin/kubectl delete pods \"\$1 }\' | sh"
-    file "/opt/kubernetes/tmp/hosts/#{slave}" do
-      action :delete
-    end
-  end
-end
 # define kubernetes master services
 %w(kube-apiserver kube-controller-manager kube-scheduler kube-proxy).each do |file|
   template "/etc/default/#{file}" do
@@ -45,14 +27,17 @@ end
     owner 'root'
     group 'root'
     mode '0644'
-    variables (lazy {
-                 {iterator: node['kubernetes']}
-    })
+    variables (lazy do
+      { iterator: node['kubernetes'] }
+    end)
   end
 
   template "/etc/systemd/system/#{file}.service" do
     source "etc/systemd/system/#{file}.service.erb"
     notifies :run, 'execute[systemd_reload_units]', :immediate
+    variables (lazy do
+                 { etcd_name: node['kubernetes']['etcd_service_name'] }
+               end)
     mode '0644'
   end
 
@@ -62,5 +47,3 @@ end
     subscribes :restart, "template[/etc/systemd/system/#{file}.service]"
   end
 end
-
-include_recipe "kubernetes-install::service_discovery"

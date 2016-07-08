@@ -1,6 +1,6 @@
 #
-# Cookbook Name:: kubernetes-install
-# Recipe:: default
+# Cookbook Name:: kubernetes-cluster
+# Recipe:: master
 #
 # Copyright:: Copyright (c) 2015 Chef Software, Inc.
 # License:: Apache License, Version 2.0
@@ -18,28 +18,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-execute 'systemd_reload_units' do
-  action :nothing
-  command '/bin/systemctl daemon-reload'
+etcd_service 'etcd' do
+  service_manager 'systemd'
+  action [:create, :start]
 end
 
-remote_file '/usr/local/bin/hyperkube' do
-   owner 'root'
-   group 'root'
-   mode '0744'
-   source node['kubernetes']['hyperkube']['url']
-   checksum node['kubernetes']['hyperkube']['sha256checksum']
-end
-
-docker_installation_binary 'kubernetes-install' do
-  version '1.10.3'
-  only_if { node['kubernetes']['install_docker'] }
-end
-
-docker_service_manager_systemd 'kubernetes-install' do
-  storage_driver 'overlay'
-  action :start
-  only_if { node['kubernetes']['install_docker'] }
-end
-
-
+include_recipe 'kubernetes-install::master'
