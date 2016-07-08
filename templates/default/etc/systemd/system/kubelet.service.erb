@@ -3,11 +3,11 @@ Description=Kubernetes Kubelet Service
 Documentation=https://github.com/kubernetes/kubernetes/
 After=network.target
 Requires=<% @etcd_name %>.service
-After=weave.service
+After=<% @etcd_name %>.service
 
 [Service]
 EnvironmentFile=/etc/default/kubelet
-ExecStart=/opt/kubernetes/server/bin/kubelet $KUBELET_OPTS
+ExecStart=/usr/local/bin/hyperkube kubelet $KUBELET_OPTS
 Restart=on-failure
 LimitNOFILE=65536
 

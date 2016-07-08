@@ -3,11 +3,11 @@ Description=Kubernetes Scheduler
 Documentation=https://github.com/kubernetes/kubernetes/
 After=network.target
 Requires=<% @etcd_name %>.service
-After=weave.service
+After=<% @etcd_name %>.service
 
 [Service]
 EnvironmentFile=/etc/default/kube-scheduler
-ExecStart=/opt/kubernetes/server/bin/kube-scheduler $KUBE_SCHEDULER_OPTS
+ExecStart=/usr/local/bin/hyperkube scheduler $KUBE_SCHEDULER_OPTS
 Restart=on-failure
 LimitNOFILE=65536
 

@@ -23,24 +23,23 @@ execute 'systemd_reload_units' do
   command '/bin/systemctl daemon-reload'
 end
 
-tar_extract node['kubernetes']['package'] do
-  target_dir '/opt'
+remote_file '/usr/local/bin/hyperkube' do
+   owner 'root'
+   group 'root'
+   mode '0744'
+   source node['kubernetes']['hyperkube']['url']
+   checksum node['kubernetes']['hyperkube']['sha256checksum']
 end
 
-tar_extract '/opt/kubernetes/server/kubernetes-server-linux-amd64.tar.gz' do
-  action :extract_local
-  retries 3
-  target_dir '/opt'
-  creates '/opt/kubernetes/server/bin/'
+docker_installation_binary 'kubernetes-install' do
+  version '1.10.3'
+  only_if { node['kubernetes']['install_docker'] }
 end
 
-cookbook_file '/etc/profile.d/K99-kubernetes.sh' do
-  source 'profile.d/kubernetes.sh'
-  mode 00755
-  action :create
-  only_if do
-    ::File.directory?('/etc/profile.d/')
-  end
+docker_service_manager_systemd 'kubernetes-install' do
+  storage_driver 'overlay'
+  action :start
+  only_if { node['kubernetes']['install_docker'] }
 end
 
-include_recipe 'kubernetes-install::docker'
+

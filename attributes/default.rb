@@ -15,10 +15,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-default['kubernetes']['package'] = 'https://github.com/kubernetes/kubernetes/releases/download/v1.2.4/kubernetes.tar.gz'
-default['kubernetes']['nodes'] = []
+default['kubernetes']['hyperkube']['url'] = 'https://storage.googleapis.com/kubernetes-release/release/v1.3.0/bin/linux/amd64/hyperkube'
+default['kubernetes']['hyperkube']['checksum'] = '12fc7efe414f09e105ccf2abcc94d9a7ebfb5aca3f140d57a28ca37cee0a7fa8'
 default['kubernetes']['internal_protocol'] = 'http'
-default['kubernetes']['etcd_service_name'] = 'etcd-etcd'
+default['kubernetes']['install_docker'] = true
+
+default['kubernetes']['etcd']['service_name'] = 'etcd-etcd'
 
 # API SERVER DEFAULT PARAMS
 default['kubernetes']['apiserver']['params']['address'] = '0.0.0.0'

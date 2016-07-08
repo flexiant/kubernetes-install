@@ -6,7 +6,7 @@ describe port(4194) do
   it { should be_listening }
 end
 
-%w(docker kubelet).each do |svc|
+%w(docker-kubernetes-install kubelet).each do |svc|
   describe service(svc) do
     it { should be_running }
   end

@@ -1,6 +1,0 @@
-auto docker0
-iface docker0 inet manual
-        pre-up brctl addbr docker0
-        post-up ip addr add 172.17.42.1/24 dev docker0
-        pre-down ip link set dev docker0 down
-        post-down brctl delbr docker0
